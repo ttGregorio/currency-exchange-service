@@ -6,6 +6,7 @@ pipeline {
 	environment {
 		dockerHome = tool 'myDocker'
 		mavenHome = tool 'myMaven'
+	    registryCredential = 'dockerhub_id' 
 		PATH = "$dockerHome/bin:$mavenHome/bin:$PATH"
 	}
 
@@ -60,7 +61,7 @@ pipeline {
 		stage('Push Docker Image') {
 			steps {
 				script {
-					docker.withRegistry('', 'dockerhub') {
+					docker.withRegistry('', registryCredential) {
 						dockerImage.push();
 						dockerImage.push('latest');
 					}
